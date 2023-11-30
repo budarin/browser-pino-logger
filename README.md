@@ -1,2 +1,3 @@
 # client-logger
-Client buffered logger
+
+Client logger
