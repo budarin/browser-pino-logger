@@ -4,6 +4,7 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "type": "module",
+    "sideEffects": false,
     "repository": {
         "url": "git+https://github.com/budarin/browser-pino-logger.git"
     },
