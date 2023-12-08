@@ -115,7 +115,7 @@ export class PinoLogger implements LoggerService {
                             const pinoInstanceLevel = pino.levels.values[this.pinoInstance.level];
 
                             if (pino.levels.values[level] >= pinoInstanceLevel) {
-                                await fetch(endpoint, {
+                                await fetch(`${endpoint}/${level}`, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json; charset=utf-8',
