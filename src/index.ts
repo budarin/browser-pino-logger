@@ -25,14 +25,15 @@ export class PinoLogger implements LoggerService {
 
     constructor(
         endpoint: string,
-        bindings: Record<string, string> = {},
+        bindings: Record<string, string> | undefined = undefined,
         pinoInstance: pino.Logger | undefined = undefined,
     ) {
         this.endpoint = endpoint;
 
-        this.pinoInstance =
-            pinoInstance ||
-            pino({
+        if (pinoInstance) {
+            this.pinoInstance = pinoInstance;
+        } else {
+            const logger = pino({
                 formatters: {
                     level: (label) => ({ level: label.toUpperCase() }),
                 },
@@ -56,7 +57,10 @@ export class PinoLogger implements LoggerService {
                     },
                     write: noop,
                 },
-            }).child(bindings);
+            });
+
+            this.pinoInstance = bindings ? logger.child(bindings) : logger;
+        }
     }
 
     info(...data: unknown[]): void {
