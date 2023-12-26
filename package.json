@@ -35,6 +35,7 @@
         "upgrade deps": "yarn upgrade-interactive --latest;"
     },
     "dependencies": {
+        "@budarin/ulid": "^1.0.0",
         "pino": "^8.16.2"
     }
 }

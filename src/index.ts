@@ -1,3 +1,4 @@
+import { ulid } from '@budarin/ulid';
 import { pino, Level, LogEvent } from 'pino';
 
 const noop = (): void => {};
@@ -50,7 +51,11 @@ export class PinoLogger implements LoggerService {
                                     headers: {
                                         'Content-Type': 'application/json; charset=utf-8',
                                     },
-                                    body: JSON.stringify([logEvent]),
+                                    body: JSON.stringify({
+                                        id: ulid(),
+                                        method: level,
+                                        params: logEvent,
+                                    }),
                                 });
                             }
                         },
