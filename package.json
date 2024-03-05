@@ -21,7 +21,7 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "typescript": "^5.3.2"
+        "typescript": "^5.3.3"
     },
     "publishConfig": {
         "access": "public",
@@ -36,6 +36,6 @@
     },
     "dependencies": {
         "@budarin/ulid": "^1.0.0",
-        "pino": "^8.16.2"
+        "pino": "^8.19.0"
     }
 }
