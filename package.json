@@ -21,7 +21,7 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "typescript": "^5.3.3"
+        "typescript": "^5.4.2"
     },
     "publishConfig": {
         "access": "public",
@@ -35,7 +35,7 @@
         "upgrade deps": "yarn upgrade-interactive --latest;"
     },
     "dependencies": {
-        "@budarin/ulid": "^1.0.0",
+        "@budarin/ulid": "^1.0.1",
         "pino": "^8.19.0"
     }
 }
