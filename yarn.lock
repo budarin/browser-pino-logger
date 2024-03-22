@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@budarin/ulid@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@budarin/ulid/-/ulid-1.0.1.tgz#e0a718bec67ea036abbe55bce845d838a2f672ed"
-  integrity sha512-WhZ2rZD8syL+52vC+44kb/+jglwKq+8bn12ngjDFYNsdnvwQ+nuui9CBmBDYs2T5EMVfRenhGQ2dgOfkBWiKeA==
+"@budarin/ulid@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@budarin/ulid/-/ulid-1.0.2.tgz#2ccdc7c957a4be68521cb1c62fe347c2994f2527"
+  integrity sha512-S3UqGKubxicmofyyafY2KWuVA+v1z1+yMmzPje03WaA4mMMkE2Pi88wWggjinZqlUagUWk4ookbpa9Pl7llJOQ==
 
 abort-controller@^3.0.0:
   version "3.0.0"
@@ -154,7 +154,7 @@ thread-stream@^2.0.0:
   dependencies:
     real-require "^0.2.0"
 
-typescript@^5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.2.tgz#0ae9cebcfae970718474fe0da2c090cad6577372"
-  integrity sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==
+typescript@^5.4.3:
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.3.tgz#5c6fedd4c87bee01cd7a528a30145521f8e0feff"
+  integrity sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==
