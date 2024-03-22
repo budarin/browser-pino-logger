@@ -31,11 +31,11 @@
         "npm-publish": "npm run build && npm publish",
         "upgrade deps": "yarn upgrade-interactive --latest;"
     },
-    "devDependencies": {
-        "typescript": "^5.4.3"
-    },
     "dependencies": {
         "@budarin/ulid": "^1.0.2",
         "pino": "^8.19.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.3"
     }
 }
