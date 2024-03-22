@@ -1,15 +1,5 @@
+import { ulid } from '@budarin/ulid';
 import { pino, Level, LogEvent } from 'pino';
-
-const getSend = (endpoint: string) =>
-    async function (_: Level, logEvent: LogEvent) {
-        return await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([logEvent]),
-        });
-    };
 
 const noop = (): void => {};
 
@@ -29,66 +19,6 @@ export type LightScheme = {
     };
 };
 
-function getLightScheme(defaultScheme: string = 'light'): LightSchemeType {
-    const darkMode =
-        'matchMedia' in globalThis ? globalThis.matchMedia('(prefers-color-scheme: dark)').matches : defaultScheme;
-    return darkMode ? 'dark' : 'light';
-}
-
-function getFormatedBindings(
-    colorSchema: LightScheme,
-    defaultLightSchema: LightSchemeType | undefined,
-    bindings: pino.Bindings[],
-): string[] {
-    const lightScheme = getLightScheme(defaultLightSchema);
-
-    const bindingMessages =
-        bindings.length > 0
-            ? bindings
-                  .map((b) => Object.values(b))
-                  .flat()
-                  .map((b) => `%c${b}`)
-                  .join('')
-            : '';
-    const bindingStyles =
-        bindings.length > 0
-            ? bindings
-                  .map((b) => Object.values(b))
-                  .flat()
-                  .map(
-                      (b) =>
-                          `color: ${
-                              colorSchema[b]?.[defaultLightSchema || lightScheme] || 'black'
-                          }; font-weight: bold;`,
-                  )
-            : '';
-
-    return [bindingMessages, ...bindingStyles].filter(Boolean);
-}
-
-const { info, warn, error, debug } = console;
-
-const logFunctions = {
-    debug,
-    info,
-    warn,
-    error,
-};
-
-type LogFunctions = typeof logFunctions;
-type KeyOfLogFunctions = keyof LogFunctions;
-
-function logMessage(level: string, binds: string[], messages: string[]): void {
-    const logFunction = logFunctions[level as KeyOfLogFunctions];
-
-    if (logFunction) {
-        if (binds.length > 0) {
-            logFunction(...binds, ...messages);
-        } else {
-            logFunction(...messages);
-        }
-    }
-}
 export class PinoLogger implements LoggerService {
     private endpoint: string;
 
@@ -96,14 +26,15 @@ export class PinoLogger implements LoggerService {
 
     constructor(
         endpoint: string,
-        bindings: Record<string, string> = {},
+        bindings: Record<string, string> | undefined = undefined,
         pinoInstance: pino.Logger | undefined = undefined,
     ) {
         this.endpoint = endpoint;
 
-        this.pinoInstance =
-            pinoInstance ||
-            pino({
+        if (pinoInstance) {
+            this.pinoInstance = pinoInstance;
+        } else {
+            const logger = pino({
                 formatters: {
                     level: (label) => ({ level: label.toUpperCase() }),
                 },
@@ -120,14 +51,21 @@ export class PinoLogger implements LoggerService {
                                     headers: {
                                         'Content-Type': 'application/json; charset=utf-8',
                                     },
-                                    body: JSON.stringify([logEvent]),
+                                    body: JSON.stringify({
+                                        id: ulid(),
+                                        method: level,
+                                        params: logEvent,
+                                    }),
                                 });
                             }
                         },
                     },
                     write: noop,
                 },
-            }).child(bindings);
+            });
+
+            this.pinoInstance = bindings ? logger.child(bindings) : logger;
+        }
     }
 
     info(...data: unknown[]): void {
