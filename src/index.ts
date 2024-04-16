@@ -1,6 +1,7 @@
 import { ulid } from '@budarin/ulid';
 import { pino, Level, LogEvent } from 'pino';
 
+const INFO = 'info';
 const noop = (): void => {};
 
 interface LoggerService {
@@ -9,6 +10,7 @@ interface LoggerService {
     error: (...data: unknown[]) => void;
     debug: (...data: unknown[]) => void;
     child: (binding: Record<string, string>) => LoggerService;
+    level: pino.Level;
 }
 
 export type LightSchemeType = 'light' | 'dark';
@@ -42,6 +44,7 @@ export class PinoLogger implements LoggerService {
                     serialize: false,
                     asObject: false,
                     transmit: {
+                        level: INFO,
                         send: async (level: Level, logEvent: LogEvent): Promise<void> => {
                             const pinoInstanceLevel = pino.levels.values[this.pinoInstance.level];
 
@@ -66,7 +69,11 @@ export class PinoLogger implements LoggerService {
 
             this.pinoInstance = bindings ? logger.child(bindings) : logger;
         }
+
+        this.level = INFO;
     }
+
+    level: pino.Level;
 
     info(...data: unknown[]): void {
         this.pinoInstance.info(data);
