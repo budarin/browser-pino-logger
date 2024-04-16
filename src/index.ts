@@ -26,6 +26,8 @@ export class PinoLogger implements LoggerService {
 
     private pinoInstance: pino.Logger;
 
+    private level: pino.Level = 'info';
+
     constructor(
         endpoint: string,
         bindings: Record<string, string> | undefined = undefined,
@@ -45,7 +47,7 @@ export class PinoLogger implements LoggerService {
                     asObject: false,
                     transmit: {
                         send: async (level: Level, logEvent: LogEvent): Promise<void> => {
-                            const pinoInstanceLevel = pino.levels.values[this.pinoInstance.level];
+                            const pinoInstanceLevel = pino.levels.values[this.level];
 
                             if (pino.levels.values[level] >= pinoInstanceLevel) {
                                 await fetch(`${endpoint}/${level}`, {
@@ -67,11 +69,12 @@ export class PinoLogger implements LoggerService {
             });
 
             this.pinoInstance = bindings ? logger.child(bindings) : logger;
-            this.pinoInstance.level = INFO;
+            this.pinoInstance.level = this.level;
         }
     }
 
     setLevel(level: pino.Level): void {
+        this.level = level;
         this.pinoInstance.level = level;
     }
 
