@@ -10,7 +10,7 @@ interface LoggerService {
     error: (...data: unknown[]) => void;
     debug: (...data: unknown[]) => void;
     child: (binding: Record<string, string>) => LoggerService;
-    level: pino.Level;
+    setLevel: (level: pino.Level) => void;
 }
 
 export type LightSchemeType = 'light' | 'dark';
@@ -44,7 +44,6 @@ export class PinoLogger implements LoggerService {
                     serialize: false,
                     asObject: false,
                     transmit: {
-                        level: INFO,
                         send: async (level: Level, logEvent: LogEvent): Promise<void> => {
                             const pinoInstanceLevel = pino.levels.values[this.pinoInstance.level];
 
@@ -68,12 +67,13 @@ export class PinoLogger implements LoggerService {
             });
 
             this.pinoInstance = bindings ? logger.child(bindings) : logger;
+            this.pinoInstance.level = INFO;
         }
-
-        this.level = INFO;
     }
 
-    level: pino.Level;
+    setLevel(level: pino.Level): void {
+        this.pinoInstance.level = level;
+    }
 
     info(...data: unknown[]): void {
         this.pinoInstance.info(data);
