@@ -32,10 +32,10 @@
         "upgrade deps": "yarn upgrade-interactive --latest;"
     },
     "dependencies": {
-        "@budarin/ulid": "^1.0.2",
-        "pino": "^8.19.0"
+        "@budarin/ulid": "^1.0.3",
+        "pino": "^9.5.0"
     },
     "devDependencies": {
-        "typescript": "^5.4.3"
+        "typescript": "^5.6.3"
     }
 }
