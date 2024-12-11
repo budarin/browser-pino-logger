@@ -60,6 +60,7 @@ export class PinoLogger implements LoggerService {
                                         method: level,
                                         params: logEvent,
                                     }),
+                                    priority: 'low',
                                 });
                             }
                         },
