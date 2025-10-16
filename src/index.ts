@@ -1,7 +1,8 @@
-import { ulid } from '@budarin/ulid';
-import { pino, Level, LogEvent } from 'pino';
+import type { Level, LogEvent } from 'pino';
 
-const INFO = 'info';
+import pino from 'pino';
+import { ulid } from '@budarin/ulid';
+
 const noop = (): void => {};
 
 interface LoggerService {
@@ -49,7 +50,11 @@ export class PinoLogger implements LoggerService {
                         send: async (level: Level, logEvent: LogEvent): Promise<void> => {
                             const pinoInstanceLevel = pino.levels.values[this.logLevel];
 
-                            if (pino.levels.values[level] >= pinoInstanceLevel) {
+                            if (
+                                pino.levels.values[level] &&
+                                pinoInstanceLevel &&
+                                pino.levels.values[level] >= pinoInstanceLevel
+                            ) {
                                 await fetch(`${endpoint}/${level}`, {
                                     method: 'POST',
                                     headers: {

@@ -24,18 +24,20 @@
         "access": "public",
         "registry": "https://registry.npmjs.org/"
     },
-    "scripts": {
-        "build": "sh ./tools/build.sh",
-        "patch-version": "npm version patch",
-        "prepublish": "npm run build",
-        "npm-publish": "npm run build && npm publish",
-        "upgrade deps": "yarn upgrade-interactive --latest;"
-    },
     "dependencies": {
         "@budarin/ulid": "^1.0.3",
-        "pino": "^9.5.0"
+        "pino": "^10.0.0"
     },
     "devDependencies": {
-        "typescript": "^5.6.3"
+        "prettier": "^3.6.2",
+        "typescript": "^5.9.3"
+    },
+    "scripts": {
+        "build": "sh ./tools/build.sh",
+        "type-check": "tsc --noEmit",
+        "patch-version": "pnpm version patch",
+        "pnpm-install": "pnpm install",
+        "upgrade deps": "pnpm upgrade -i --latest",
+        "publish-package": "pnpm build && pnpm publish --access=public"
     }
 }
