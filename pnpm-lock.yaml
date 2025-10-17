@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@budarin/ulid':
-        specifier: ^1.0.3
-        version: 1.0.5
       pino:
         specifier: ^10.0.0
         version: 10.0.0
@@ -23,9 +20,6 @@ importers:
         version: 5.9.3
 
 packages:
-
-  '@budarin/ulid@1.0.5':
-    resolution: {integrity: sha512-7n00aVtvkjVWq1dR0Uc9nVY97KeukzQTKE1NjUMIAMAMQ8LyDmlrbeF/mSYgUIBdAdGB1FzfIqebDwZtf2yeNQ==}
 
   atomic-sleep@1.0.0:
     resolution: {integrity: sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==}
@@ -83,8 +77,6 @@ packages:
     hasBin: true
 
 snapshots:
-
-  '@budarin/ulid@1.0.5': {}
 
   atomic-sleep@1.0.0: {}
 

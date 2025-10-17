@@ -1,7 +1,6 @@
 import type { Level, LogEvent } from 'pino';
 
 import pino from 'pino';
-import { ulid } from '@budarin/ulid';
 
 const noop = (): void => {};
 
@@ -24,17 +23,18 @@ export type LightScheme = {
 
 export class PinoLogger implements LoggerService {
     private endpoint: string;
-
     private pinoInstance: pino.Logger;
-
     private logLevel: pino.Level = 'info';
+    private uuidGenerator: () => string;
 
     constructor(
         endpoint: string,
+        uuidGenerator: () => string,
         bindings: Record<string, string> | undefined = undefined,
         pinoInstance: pino.Logger | undefined = undefined,
     ) {
         this.endpoint = endpoint;
+        this.uuidGenerator = uuidGenerator;
 
         if (pinoInstance) {
             this.pinoInstance = pinoInstance;
@@ -61,7 +61,7 @@ export class PinoLogger implements LoggerService {
                                         'Content-Type': 'application/json; charset=utf-8',
                                     },
                                     body: JSON.stringify({
-                                        id: ulid(),
+                                        id: this.uuidGenerator(),
                                         method: level,
                                         params: logEvent,
                                     }),
@@ -103,6 +103,6 @@ export class PinoLogger implements LoggerService {
     child(bindings: Record<string, string>): LoggerService {
         const childLogger = this.pinoInstance.child(bindings);
 
-        return new PinoLogger(this.endpoint, bindings, childLogger);
+        return new PinoLogger(this.endpoint, this.uuidGenerator, bindings, childLogger);
     }
 }
