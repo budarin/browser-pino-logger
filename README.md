@@ -15,10 +15,11 @@ pnpm add @budarin/browser-pino-logger
 ## Usage
 
 ```ts
+import { uuidv7 } from 'uuidv7';
 import { PinoLogger } from '@budarin/browser-pino-logger';
 
 // Initialize logger with endpoint and UUID generator
-const appLogger = new PinoLogger('/api/logs', crypto.randomUUID, { layer: 'APP' });
+const appLogger = new PinoLogger('/api/logs', uuidv7, { layer: 'APP' });
 
 // Set log level (optional, defaults to 'info')
 appLogger.setLevel('debug');
